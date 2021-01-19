@@ -1,0 +1,10 @@
+Found Issues:
+- upper caps for variables other than constants, line 30-31
+- code not seperated into short and consise methods (only one other method than main())
+Comments:
+- move code of lab3 in seperate package, e.g. "sheet3"
+- why keep the motors public?
+- shorten main method
+- if-else-block (line 45-46) not placed correctly
+Points:
+1/2

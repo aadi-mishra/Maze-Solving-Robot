@@ -1,4 +1,3 @@
-# Maze_Solving_Robot
-This is my code towards maze solving Lego Robot (Lego EV3)
+# StartProject
 
-This code is non-functional for now as I made few changes.
+The Start Project contains an Empty LeJOS EV3 project and the simulator installed. 

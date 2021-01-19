@@ -1,0 +1,7 @@
+Found Issues:
+- show initial values for constants
+- not drawing the LEJOS classes
+Comments:
+- do not use uppercaps for non-static variables
+Points:
+1/2
