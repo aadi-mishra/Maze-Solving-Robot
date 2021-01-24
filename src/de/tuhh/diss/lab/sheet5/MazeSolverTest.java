@@ -1,23 +1,37 @@
 package de.tuhh.diss.lab.sheet5;
 
-import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
+
+/**
+ * @author Aadi Nath Mishra, Özge Beyza Albayrak
+ * 
+ * Implements the Wall Follower algorithm for the maze solving robot with left hand rule.
+ * Additionally other functionalities such as detecting dead ends, color target, wall detection, etc.
+ * are extended for a good navigation and problem solving. 
+ */
 
 public class MazeSolverTest {
 
 	// Create object for sensors, motors and usable classes
-		static UsSensor usObject = new UsSensor();
-		static ColorSensor colorObject = new ColorSensor();
-		static Beep beeper = new Beep();
-		static DisplayMenu menu = new DisplayMenu();
-		static Motors motors = new Motors();
-		static Gyro gyroObject = new Gyro();
+		private static UsSensor usObject = new UsSensor();
+		private static ColorSensor colorObject = new ColorSensor();
+		private static Beep beeper = new Beep();
+		private static DisplayMenu menu = new DisplayMenu();
+		private static Motors motors = new Motors();
+		private static Gyro gyroObject = new Gyro();
 		
 		private static final int RIGHT = -90;
-		private static final int LEFT = 90;
+		private static final int LEFT = 90; 
+		private static final int BACK_CW = -180; 
+		private static final int MOVE_DISTANCE = -35;
+		private static final double TILE_CENTER = 17.5;
 		
-		public static void main(String[] args) {
-						
+		public static void main(String[] args) {	
+			wallFollower();
+		}
+		
+		public static void wallFollower() {
+			
 			float[] distances;
 			boolean leftWall;
 			boolean frontWall;
@@ -33,23 +47,19 @@ public class MazeSolverTest {
 				float leftDistance = distances[1];
 				float rightDistance =  distances[2];
 				
-				LCD.drawString("F "+distances[0] , 0, 4);
-				LCD.drawString("L "+distances[1] , 0, 5);
-				LCD.drawString("R "+distances[2] , 0, 6);
-				
-				if (forwardDistance <= 14) {
+				if (forwardDistance <= TILE_CENTER) {
 					frontWall = true;
 				}else {
 					frontWall = false;
 					}
 				
-				if (leftDistance <= 14) {
+				if (leftDistance <= TILE_CENTER) {
 					leftWall = true;
 				}else {
 					leftWall = false;
 					}
 				
-				if (rightDistance <= 14) {
+				if (rightDistance <= TILE_CENTER) {
 					rightWall = true;
 				}else {
 					rightWall = false;
@@ -83,45 +93,32 @@ public class MazeSolverTest {
 					}else {
 						motors.moveBackward();
 						motors.turn(RIGHT);
-						motors.moveForward();
+						motors.moveForwardToDistance(MOVE_DISTANCE);
 					}
-				}// Left wall following algorithm
-				else if (leftWall == false) {
-//					motors.moveForwardSlow();
-//					isTarget = checkTarget(targetColor);
-//
-//					if (isTarget) {
-//						break;
-//					}
-//					motors.moveBackward();
+				}else if (leftWall == false) {
+
 					motors.turn(LEFT);
-					motors.moveForward();
+					motors.moveForwardToDistance(MOVE_DISTANCE);
 					
-				}else {
-					
+				}else {	
 					if (frontWall == false) {
-						motors.moveForward();
+						motors.moveForwardToDistance(MOVE_DISTANCE);
 						
 					}else {
-//						motors.moveForwardSlow();
-//						isTarget = checkTarget(targetColor);
-//						if (isTarget) {
-//							break;
-//						}
-//						motors.moveBackward();
+
 						motors.turn(RIGHT);
 					}
 				}			
 			}while(true);
+			
 		}
-										
+								
 		public static float[] scanScore() {
 			float[] distanceParam  = new float[3];
 			distanceParam[0] = usObject.getDistance();
 			motors.turn(LEFT);
 			distanceParam[1] = usObject.getDistance();
-			motors.turn(RIGHT);
-			motors.turn(RIGHT);
+			motors.turn(BACK_CW);
 			distanceParam[2] = usObject.getDistance();
 			motors.turn(LEFT);
 			
@@ -138,7 +135,7 @@ public class MazeSolverTest {
 			
 			if (colorName == targetColor) {
 				target = true;
-				motors.motorStop();
+				motors.stop();
 				LCD.drawString("Target is " + colorName, 0, 0);
 				beeper.beepy();
 				

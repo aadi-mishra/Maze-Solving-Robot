@@ -3,12 +3,18 @@ package de.tuhh.diss.lab.sheet5;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 
-/* Methods  : drawColorname() - lists color as a menu.
- * 			: displayMenu() - returns color selected as a target.
- * 			: main()
- * */
+/**
+ * @author Aadi Nath Mishra, Özge Beyza Albayrak
+ * 
+ * Implements methods to display list of colors to be selected as a target for the robot,
+ * and allow users to select them.
+ *
+ **/
 public class DisplayMenu {
 	
+	/** 
+	 * Display color as a menu on the screen.
+	 */
 	public void drawColorName() {
 			
 			LCD.drawString("BLACK", 1, 0);
@@ -20,6 +26,11 @@ public class DisplayMenu {
 			LCD.drawString("BROWN", 1, 6);		
 	}
 	
+	/**
+	 *  Returns color selected by the user as input from the drop-down menu.
+	 *  Allows for pointer movement using key press.
+	 * @return 		Target color value
+	 */
 	public String displayMenu() {
 		
 		final int POINTER_X = 0;
@@ -53,26 +64,34 @@ public class DisplayMenu {
 			}else if (buttonID== 2) {
 				
 				switch(pointerY) {
-					case 0: colorName = "BLACK"; 
-					break;
-					case 1: colorName = "BLUE"; 
-					break;
-					case 2: colorName = "GREEN"; 
-					break;
-					case 3: colorName = "YELLOW"; 
-					break;
-					case 4: colorName = "RED"; 
-					break;
-					case 5: colorName = "WHITE"; 
-					break;
-					case 6: colorName = "BROWN"; 
-					break;
+					case 0: 
+						colorName = "BLACK"; 
+						break;
+					case 1: 
+						colorName = "BLUE"; 
+						break;
+					case 2: 
+						colorName = "GREEN"; 
+						break;
+					case 3: 
+						colorName = "YELLOW"; 
+						break;
+					case 4: 
+						colorName = "RED"; 
+						break;
+					case 5: 
+						colorName = "WHITE"; 
+						break;
+					case 6: 
+						colorName = "BROWN"; 
+						break;
 				}
 				LCD.clear();
-				//break;   """" FOR MAIN FUNCTIONALITY USE BREAK TO OPTIMISE """"
+				break;
 			}
 		}
 		LCD.clear();
+	
 		return colorName;	
 	}	
 }

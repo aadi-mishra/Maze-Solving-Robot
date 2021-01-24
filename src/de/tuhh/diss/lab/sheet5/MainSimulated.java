@@ -12,14 +12,15 @@ public class MainSimulated {
 		GuiMazeVisualization gui = new GuiMazeVisualization(1.4, sim.getStateAccessor());
 
 		sim.scaleSpeed(1);
-		sim.setRobotPosition(0.500, 0.550, 90);
+//		sim.setRobotPosition(0.500, 0.550, 90);
+		sim.setRobotPosition(0.525, 0.525, 90);
 //		sim.setRobotPosition(0.75, 0.75, 90);
 
 		sim.startSimulation();
 		gui.startVisualization();
 
 		// Here goes your Code!
-		MazeSolverTest.main(new String[0]);
+		MazeSolver.main(new String[0]);
 		
 		Delay.msDelay(100);
 		sim.stopSimulation();

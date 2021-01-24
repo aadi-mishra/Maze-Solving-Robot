@@ -27,12 +27,12 @@ public class Task3 {
         
 		//Rotate a given angle
 		
-		int angle = angleRotation(30);
+		int angle = angleRotation(35);
 
 		rightMotor.rotate(angle, true);
 		leftMotor.rotate(angle, true);
 		
-		Delay.msDelay(100000);
+		Delay.msDelay(30000);
 
 		rightMotor.rotate(angle, true);
 		leftMotor.rotate(angle, true);
