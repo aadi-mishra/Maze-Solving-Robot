@@ -10,6 +10,9 @@ import lejos.robotics.Color;
  */
 public class ColorSensor {
 	
+	private int colorID = 0;
+	private String colorName = " ";
+	
 	/**
 	 * Implements a method to read the color sensor value depending on the corresponding color ID.
 	 * @return    Name of the color detected by the color sensor as String data type.
@@ -19,8 +22,9 @@ public class ColorSensor {
 		EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S1);
 		SensorMode color = colorSensor.getColorIDMode();
 		float[] sample = new float[color.sampleSize()];
-		int colorID=0;
-		String colorName = "";
+		
+		//int colorID=0;
+		//String colorName = "";
 		
 		colorSensor.fetchSample(sample,0);
 		colorID = (int)sample[0];

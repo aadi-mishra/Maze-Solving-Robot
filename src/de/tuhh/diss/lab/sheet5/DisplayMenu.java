@@ -12,6 +12,10 @@ import lejos.hardware.lcd.LCD;
  **/
 public class DisplayMenu {
 	
+	private static final int POINTER_X = 0;
+	private int pointerY = 0;
+	private String colorName = "NONE";
+	
 	/** 
 	 * Display color as a menu on the screen.
 	 */
@@ -33,9 +37,6 @@ public class DisplayMenu {
 	 */
 	public String displayMenu() {
 		
-		final int POINTER_X = 0;
-		int pointerY = 0;
-		String colorName = "NONE";
 		LCD.drawString(">", POINTER_X, pointerY);
 		drawColorName();
 		while (Button.ENTER.isUp()) {

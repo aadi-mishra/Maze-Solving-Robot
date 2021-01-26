@@ -1,6 +1,5 @@
 package de.tuhh.diss.lab.sheet5;
 
-import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.utility.Delay;
@@ -21,12 +20,19 @@ public class Motors {
 	private Gyro gyroObject = new Gyro();
 	private UsSensor usObject = new UsSensor();
 	
+	private static final int K_P = 20;
+	private static final int K_F = 20;
+	private static final int K_S = 35;
+	private static final double MIN_WALL_DIST = -13.5; 
+	private static final double MIN_TARGET_DIST = -4;
+	
 	private int motorSpeed = 0;
-	private final int K_P = 20;
-	private final int K_F = 20;
-	private final int K_S = 35;
 	private float currentDistance = 0;
-	public  float lastAngle = 0;
+	private float currentAngle = 0;
+	private float lastAngle = 0;
+	private float initialDistance = 0;
+	private float difference  = 0;
+	private int angle = 0;
 	
 	/**
 	 * Sets the speed of both left and right motors of the robot.
@@ -49,7 +55,6 @@ public class Motors {
 	 */
 	public void turn(float degrees) {
 		lastAngle = lastAngle + degrees;
-		float currentAngle;
 		
 		do {
             currentAngle = gyroObject.getAngle();
@@ -81,8 +86,7 @@ public class Motors {
 	 * to implement proportional control.
 	 */
 	public void moveForward() {
-		float initialDistance = 0;
-		float difference  = 0;
+		
 		do {
 			currentDistance = usObject.getDistance();
 			difference = (initialDistance-currentDistance);
@@ -91,7 +95,7 @@ public class Motors {
 			leftMotor.backward();
 			rightMotor.backward();
 
-		}while(difference<=-14);
+		}while(difference <= MIN_WALL_DIST);
 	}
 	
 	/**
@@ -101,7 +105,7 @@ public class Motors {
 	 * @param distanceToMove Input desired distance to be traversed by the robot in cm.
 	 */
 	public void moveForwardToDistance(double distanceToMove) {
-		int angle = angleRotation(distanceToMove);
+		angle = angleRotation(distanceToMove);
 		setSpeed(700);
 		rightMotor.rotate(angle, true);
 		leftMotor.rotate(angle, true);
@@ -116,8 +120,7 @@ public class Motors {
 	 * to implement proportional control.
 	 */
 	public void moveForwardSlow() {
-		float initialDistance = 0;
-		float difference  = 0;
+		
 		do {
 			currentDistance = usObject.getDistance();
 			difference = (initialDistance-currentDistance);
@@ -127,7 +130,7 @@ public class Motors {
 			rightMotor.backward();
 
 		}
-		while(difference<=-4);
+		while(difference<=MIN_TARGET_DIST);
 	}
 	
 	/**
@@ -136,8 +139,7 @@ public class Motors {
 	 * to implement proportional control.
 	 */
 	public void moveBackward() {
-		float initialDistance = 0;
-		float difference  = 0;		
+				
 		do {
 			currentDistance = usObject.getDistance();
 			difference = (initialDistance-currentDistance);
@@ -146,7 +148,7 @@ public class Motors {
 			leftMotor.forward();
 			rightMotor.forward();				
 
-		}while(difference>-14);
+		} while(difference>MIN_WALL_DIST);
 	}
 	
 	/**
@@ -165,6 +167,7 @@ public class Motors {
 	 * @param distance Input distance (in cm) of type double.
 	 * @return returns the angle to be turned by wheels.
 	 */
+	
 	public int angleRotation(double distance) {
 		
 		final int MOTOR_GEAR_COG = 8;  											// Number of motor teeth 

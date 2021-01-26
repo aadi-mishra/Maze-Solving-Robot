@@ -25,6 +25,8 @@ public class MazeSolver {
 	private static final int MOVE_DISTANCE = -35;
 	private static final double TILE_CENTER = 17.5;
 	
+
+	
 	/**
 	 * Main method calls the wallFollower method which navigates through the maze 
 	 * and looks for the selected target. 
